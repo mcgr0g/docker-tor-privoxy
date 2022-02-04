@@ -1,5 +1,5 @@
-VERSION=0.0.5
-IMAGE=datawookie/tor-privoxy
+VERSION=0.0.6
+IMAGE=mcgr0g/tor-privoxy
 
 # IMAGE -----------------------------------------------------------------------
 
@@ -23,6 +23,13 @@ run:
 	docker run --rm --name tor \
 	-e IP_CHANGE_SECONDS=120 \
 	-e EXIT_NODE={ua},{ug},{uk},{ie} \
+	-p 127.0.0.1:8888:8888 \
+	-p 127.0.0.1:9050:9050 \
+	$(IMAGE):$(VERSION)
+
+sample:
+	docker run --rm --name torproxy \
+	-e EXCLUDE_NODE={RU},{UA},{AM},{KG},{BY} \
 	-p 127.0.0.1:8888:8888 \
 	-p 127.0.0.1:9050:9050 \
 	$(IMAGE):$(VERSION)

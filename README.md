@@ -16,10 +16,10 @@ These ports are exposed by the image:
 
 ### Build
 
-A pre-built image is available [here](https://hub.docker.com/repository/docker/datawookie/tor-privoxy). Pull it using:
+A pre-built image is available [here](https://hub.docker.com/r/mcgr0g/tor-privoxy). Pull it using:
 
 ```bash
-$ docker pull datawookie/tor-privoxy
+$ docker pull mcgr0g/tor-privoxy
 ```
 
 You can also build your own using this repository:
@@ -39,7 +39,7 @@ $ make build
 To launch the pre-built image:
 
 ```bash
-docker run --rm --name tor -p 8888:8888 -p 9050:9050 datawookie/tor-privoxy
+docker run --rm --name tor -p 8888:8888 -p 9050:9050 mcgr0g/tor-privoxy
 ```
 
 You can also launch the image built from this repository:
@@ -59,8 +59,9 @@ $ make run
 The following environment variables will modify the behaviour of the container:
 
 - `IP_CHANGE_SECONDS` - Number of seconds between changes of Tor exit address.
-- `EXIT_NODE`
+- `EXIT_NODE` - Specify exit node location via [alpha-2 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
 - `LOG_NOTICE_TARGET` - Where should logging go?
+- `EXCLUDE_NODE` - What county ignore to use in Exit nodes, spec via [alpha-2 country codes](https://en.wikipedia.org/wiki/ISO_3166-2)
 
 For example:
 

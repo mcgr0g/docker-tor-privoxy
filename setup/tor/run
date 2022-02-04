@@ -4,9 +4,9 @@ TORRC=/opt/tor/torrc
 
 export http_proxy=127.0.0.1:8888
 
-# EXIT NODE LOCATION --------------------------------------------------------------------------------------------------
-
 cat $TORRC
+
+# EXIT NODE LOCATION --------------------------------------------------------------------------------------------------
 
 if [ -n "${EXIT_NODE}" ]
 then
@@ -14,13 +14,24 @@ then
     sed -i 's/# \(StrictNodes\)/\1/' $TORRC
 fi
 
-# ---------------------------------------------------------------------------------------------------------------------
+# EXIT NODE FILTER ----------------------------------------------------------------------------------------------------
 
-if [ -z "${IP_CHANGE_SECONDS}" ]; then IP_CHANGE_SECONDS=60; fi
+if [ -n "${EXCLUDE_NODE}" ]
+then
+    sed -i 's/# \(ExcludeExitNodes \){RU}/\1'$EXCLUDE_NODE'/' $TORRC
+    sed -i 's/# \(StrictNodes\)/\1/' $TORRC
+fi
+
+# NODE ROTATION -------------------------------------------------------------------------------------------------------
+
+if [ !${1+NODE_ROTATION} ]
+then
+    if [ -z "${IP_CHANGE_SECONDS}" ]; then IP_CHANGE_SECONDS=60; fi
+fi
 
 # Send the Tor process a HUP signal periodically. This will cause it to get a fresh exit IP address.
 #
-(while true; do sleep ${IP_CHANGE_SECONDS}; echo "`date +'%Y/%m/%d %H:%M:%S'` 🔁 HUP → Tor."; killall -HUP tor; done) &
+(while [${NODE_ROTATION} -eq 1]; do sleep ${IP_CHANGE_SECONDS}; echo "`date +'%Y/%m/%d %H:%M:%S'` 🔁 HUP → Tor."; killall -HUP tor; done) &
 
 # ---------------------------------------------------------------------------------------------------------------------
 
