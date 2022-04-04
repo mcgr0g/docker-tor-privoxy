@@ -1,1 +1,2 @@
-docker-tor-privoxy.code-workspace
+*.code-workspace
+*.bak

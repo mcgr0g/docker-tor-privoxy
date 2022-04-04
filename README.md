@@ -1,31 +1,36 @@
-![](tor-project-logo.svg)
+![](logo.jpg)
 
-An image based on Alpine Linux with [Tor](https://www.torproject.org/), [Privoxy](https://www.privoxy.org/) and [Squid](http://www.squid-cache.org/).
+An image based on Debian with
+- [Tor](https://packages.debian.org/bullseye/tor)
+- [Privoxy](https://packages.debian.org/bullseye/privoxy)
+- [Squid](https://packages.debian.org/bullseye/squid)
+
+Package version is freezed in Dockerfile
 
 # Background
 
-Tor provides a SOCKS proxy. We use Privoxy to add an HTTP proxy.
+Tor provides a [SOCKS](https://en.wikipedia.org/wiki/SOCKS) proxy. Privoxy provide an HTTP proxy. Squid help with routing.
 
 # Docker Image
 
 These ports are exposed by the image:
 
 - `8888` ⁠— Tor HTTP proxy
-- `9050` ⁠— Tor [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) proxy and
-- `9051` ⁠— Tor control.
+- `9050` ⁠— Tor SOCKS5 proxy
+- `9051` ⁠— Tor control
 
 ### Build
 
-A pre-built image is available [here](https://hub.docker.com/r/mcgr0g/tor-privoxy). Pull it using:
+A pre-built image is available [here](https://hub.docker.com/r/mcgr0g/talpa-altaica). Pull it using:
 
 ```bash
-$ docker pull mcgr0g/tor-privoxy
+$ docker pull mcgr0g/talpa-altaica
 ```
 
 You can also build your own using this repository:
 
 ```bash
-$ docker build -t tor-privoxy .
+$ docker build -t talpa-altaica .
 ```
 
 Or use the `Makefile` as follow:
@@ -39,13 +44,13 @@ $ make build
 To launch the pre-built image:
 
 ```bash
-docker run --rm --name tor -p 8888:8888 -p 9050:9050 mcgr0g/tor-privoxy
+docker run --rm --name tor -p 8888:8888 -p 9050:9050 mcgr0g/talpa-altaica
 ```
 
 You can also launch the image built from this repository:
 
 ```bash
-docker run -p 8888:8888 -p 9050:9050 tor-privoxy
+docker run -p 8888:8888 -p 9050:9050 talpa-altaica
 ```
 
 Or use the `Makefile` as follow:
@@ -66,7 +71,7 @@ The following environment variables will modify the behaviour of the container:
 For example:
 
 ```bash
-docker run -e IP_CHANGE_SECONDS=180 tor-privoxy
+docker run -e IP_CHANGE_SECONDS=180 talpa-altaica
 ```
 
 ### Check
