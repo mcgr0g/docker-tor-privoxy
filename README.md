@@ -1,62 +1,50 @@
 ![](logo.jpg)
 
-An image based on Debian with
-- [Tor](https://packages.debian.org/bullseye/tor)
-- [Privoxy](https://packages.debian.org/bullseye/privoxy)
-- [Squid](https://packages.debian.org/bullseye/squid)
-
-Package version is freezed in Dockerfile
+If you need molehole to fanced sites, talpa can help you. This kind of talpa have tor, socks and squid.
 
 # Background
 
 Tor provides a [SOCKS](https://en.wikipedia.org/wiki/SOCKS) proxy. Privoxy provide an HTTP proxy. Squid help with routing.
-
-# Docker Image
-
 These ports are exposed by the image:
-
 - `8888` ⁠— Tor HTTP proxy
 - `9050` ⁠— Tor SOCKS5 proxy
 - `9051` ⁠— Tor control
 
-### Build
+## Build
 
 A pre-built image is available [here](https://hub.docker.com/r/mcgr0g/talpa-altaica). Pull it using:
-
-```bash
+```
 $ docker pull mcgr0g/talpa-altaica
 ```
 
-You can also build your own using this repository:
+You can also build your own using this repository. Check [docs/build](https://github.com/mcgr0g/talpa-altaica/tree/master/docs/build.adoc)
 
-```bash
-$ docker build -t talpa-altaica .
+## Run
+
+```
+docker run --rm --name torproxy -p 8888:8888 -p 9050:9050 mcgr0g/talpa-altaica
 ```
 
 Or use the `Makefile` as follow:
 
-```bash
-$ make build
+```
+make run
 ```
 
-### Run
-
-To launch the pre-built image:
-
-```bash
-docker run --rm --name tor -p 8888:8888 -p 9050:9050 mcgr0g/talpa-altaica
+Or use the `docker-compose up` with such config
 ```
+version: '3.8'
+services:
 
-You can also launch the image built from this repository:
-
-```bash
-docker run -p 8888:8888 -p 9050:9050 talpa-altaica
-```
-
-Or use the `Makefile` as follow:
-
-```bash
-$ make run
+  molehole:
+    container_name: torproxy
+    image: mcgr0g/talpa-altaica:latest
+    environment:
+     ExcludeExitNodes: '{RU},{UA},{AM},{KG},{BY}'
+    ports:
+    - 8888:8888
+    - 9050:9050/tcp
+    restart: unless-stopped
 ```
 
 ### Environment Variables
@@ -74,82 +62,7 @@ For example:
 docker run -e IP_CHANGE_SECONDS=180 talpa-altaica
 ```
 
-### Check
-
-To check that you are on Tor:
-
-- configure your browser to use 127.0.0.1:8888 as proxy then
-- browse to https://check.torproject.org/.
-
-## Using Tor
-
-### Shell
-
-```bash
-# Direct access to internet.
-$ curl http://httpbin.org/ip
-{
-  "origin": "105.224.106.150"
-}
-# Access internet through Tor (HTTP proxy).
-$ curl --proxy 127.0.0.1:8888 http://httpbin.org/ip
-{
-  "origin": "185.220.102.4"
-}
-# Access internet through Tor (SOCKS proxy).
-$ curl --proxy socks5://127.0.0.1:9050 http://httpbin.org/ip
-{
-  "origin": "185.100.87.206"
-}
-```
-
-You get a different IP address when you send the request via the proxy. If you wait a while and then send the request again, you'll find that the IP address has changed.
-
-### Python
-
-The [stem](https://stem.torproject.org/) package exposes functionality for interacting with the Tor controller interface.
-
-```bash
-pip3 install stem
-```
-
-Use the requests package to send requests via the Tor proxies.
-
-```python
->>> import requests
->>> requests.get("http://httpbin.org/ip").json()
-{'origin': '105.224.106.150'}
->>> requests.get("http://httpbin.org/ip", proxies={"http": "http://127.0.0.1:8888"}).json()
-{'origin': '185.220.102.4'}
->>> requests.get("http://httpbin.org/ip", proxies={"http": "socks5://127.0.0.1:9050"}).json()
-{'origin': '185.100.87.206'}
-```
-
-This assumes that you've installed the `requests` module with support for SOCKS5.
-
-```bash
-pip3 install -U requests[socks]
-```
-
-### R
-
-```r
-> library(httr)
-> GET("http://httpbin.org/ip")
-{
-  "origin": "105.224.106.150"
-}
-> GET("http://httpbin.org/ip", use_proxy("http://127.0.0.1:8888"))
-{
-  "origin": "185.220.102.4"
-}
-> GET("http://httpbin.org/ip", use_proxy("socks5://127.0.0.1:9050"))
-{
-  "origin": "185.100.87.206"
-}
-```
-
-## Setting Exit Nodes
+#### Setting Exit Nodes
 
 It's possible to restrict the exit nodes via the configuration in `torrc`.
 
@@ -180,6 +93,40 @@ There are three ways to specify exit nodes:
 If you want to specify multiple options, use a comma-separated list.
 
 Country codes need to be enclosed in braces, for example, `{us}`.
+
+# Check
+
+To check that you are on Tor:
+
+- configure your browser to use 127.0.0.1:8888 as proxy then
+- browse to https://check.torproject.org/
+
+Other checks via cli you can find in [docs/checks](https://github.com/mcgr0g/talpa-altaica/tree/master/docs/checks.adoc)
+
+Below most popular check in shell
+
+## Shell
+
+```bash
+# Direct access to internet.
+$ curl http://httpbin.org/ip
+{
+  "origin": "105.224.106.150"
+}
+# Access internet through Tor (HTTP proxy).
+$ curl --proxy 127.0.0.1:8888 http://httpbin.org/ip
+{
+  "origin": "185.220.102.4"
+}
+# Access internet through Tor (SOCKS proxy).
+$ curl --proxy socks5://127.0.0.1:9050 http://httpbin.org/ip
+{
+  "origin": "185.100.87.206"
+}
+```
+
+You get a different IP address when you send the request via the proxy. If you wait a while and then send the request again, you'll find that the IP address has changed.
+
 
 ## Similar Projects
 

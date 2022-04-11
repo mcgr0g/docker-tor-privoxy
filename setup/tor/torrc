@@ -1,19 +1,26 @@
 # Sample configurations can be found at https://github.com/torproject/tor/tree/master/src/config.
 
 SocksPort 0.0.0.0:9050
-
 ControlPort 0.0.0.0:9051
 #
 # Write credentials to a file.
-#
 CookieAuthentication 1
 ExitRelay 0
-Log notice syslog
-#
+
 # Change 'syslog' to 'stdout' to see more logging in the terminal.
+Log notice syslog
+
+# snowflake tansport
+UseBridges 1
+
+ClientTransportPlugin snowflake exec ./client \
+-url https://snowflake-broker.torproject.net.global.prod.fastly.net/ \
+-front cdn.sstatic.net \
+-ice stun:stun.voip.blackberry.com:3478,stun:stun.altar.com.pl:3478,stun:stun.antisip.com:3478,stun:stun.bluesip.net:3478,stun:stun.dus.net:3478,stun:stun.epygi.com:3478,stun:stun.sonetel.com:3478,stun:stun.sonetel.net:3478,stun:stun.stunprotocol.org:3478,stun:stun.uls.co.za:3478,stun:stun.voipgate.com:3478,stun:stun.voys.nl:3478
+
+Bridge snowflake 192.0.2.3:1
 
 # Are the exit nodes restricted to specific location?
-#
 # ExitNodes {US}
 # StrictNodes 1
 # ExcludeExitNodes {RU}

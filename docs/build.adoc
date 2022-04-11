@@ -1,0 +1,57 @@
+== some build aspects
+
+Base usage:
+```bash
+$ docker build -t talpa-altaica .
+```
+
+
+=== final image
+
+Or use the `Makefile` as follow:
+
+```bash
+make build
+```
+
+if you want make several checks inside containter: `make runner-flop`
+
+=== snowflake transport
+In country with strong censorship you need special transport for connection to tor net.
+
+Transport building from source code.
+Joke in that git repository torproject is also blocked. You have to deal with it if you want build image on localhost.
+
+check snowflake actual version
+```
+git clone https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/
+cd snowflake && git describe --tags
+```
+
+get exact version
+```
+git clone --depth=1 -b v2.1.0 https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake/
+```
+
+only transport build
+```
+make snowflake
+```
+
+if you want make several checks inside image
+```
+docker images --filter "label=img_filter=torproxy" --format "{{.ID}}"
+# 499612b7ae86
+docker container run -it 499612b7ae86 /bin/bash
+```
+or `make container-flop`
+
+=== build after reconfigure
+It's too long to make full multi-stage rebuild, so `docker build --no-cache` is unuseful.
+But there is still avilable option `make build full`.
+
+To use chache with builed and installed libs - used variable `RECONFIGURED` in Dockerfile.
+If you make several changes in conf or sh files, you can use
+```
+make reconf
+```

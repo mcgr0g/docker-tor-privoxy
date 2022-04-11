@@ -1,0 +1,50 @@
+== health check aspects
+
+=== built-in
+Basic healthcheck in Dockerfile. Docker eval curl connection to torproject site and get own type of connection.
+
+Another kind of self-chek via stdout logs: `tor/run` script have shedulled task. It get current "exit" ip addres. You should know your current ip addres from provider to see the difference. Below are a lot of variants to get it.
+
+=== Python
+
+The https://stem.torproject.org/[stem] package exposes functionality for interacting with the Tor controller interface.
+
+```bash
+pip3 install stem
+```
+
+Use the requests package to send requests via the Tor proxies.
+
+```python
+>>> import requests
+>>> requests.get("http://httpbin.org/ip").json()
+{'origin': '105.224.106.150'}
+>>> requests.get("http://httpbin.org/ip", proxies={"http": "http://127.0.0.1:8888"}).json()
+{'origin': '185.220.102.4'}
+>>> requests.get("http://httpbin.org/ip", proxies={"http": "socks5://127.0.0.1:9050"}).json()
+{'origin': '185.100.87.206'}
+```
+
+This assumes that you've installed the `requests` module with support for SOCKS5.
+
+```bash
+pip3 install -U requests[socks]
+```
+
+=== R lang
+
+```r
+> library(httr)
+> GET("http://httpbin.org/ip")
+{
+  "origin": "105.224.106.150"
+}
+> GET("http://httpbin.org/ip", use_proxy("http://127.0.0.1:8888"))
+{
+  "origin": "185.220.102.4"
+}
+> GET("http://httpbin.org/ip", use_proxy("socks5://127.0.0.1:9050"))
+{
+  "origin": "185.100.87.206"
+}
+```
