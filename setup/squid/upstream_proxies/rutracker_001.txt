@@ -1,0 +1,8 @@
+# custom for tracker announce
+# upstream px1.blockme.site:3128 px2.blockme.site:3128
+
+# domains for proxying
+http://bt.t-ru.org/
+http://bt4.t-ru.org/
+http://bt2.t-ru.org/
+http://bt3.t-ru.org/

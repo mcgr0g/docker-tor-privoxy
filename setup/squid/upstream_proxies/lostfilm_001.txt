@@ -1,0 +1,9 @@
+# custom for tracker announce
+# upstream localhost:8888
+
+# domains for proxying
+http://bt0.tracktor.in/tracker.php/55ceac833b921495bd68c56bddbb7b5a/announce
+http://bt9.tracktor.in/tracker.php/55ceac833b921495bd68c56bddbb7b5a/announce
+http://bt99.tracktor.in/tracker.php/55ceac833b921495bd68c56bddbb7b5a/announce
+http://user1.newtrack.info/tracker.php/55ceac833b921495bd68c56bddbb7b5a/announce
+http://user5.newtrack.info/tracker.php/55ceac833b921495bd68c56bddbb7b5a/announce

@@ -1,0 +1,5 @@
+# custom for tracker forum
+# upstream localhost:8888
+
+# domains for redirect/rewrite
+http://rutor.info; http://rutorc6mqdinc4cz.onion/

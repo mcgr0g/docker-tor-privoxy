@@ -1,0 +1,5 @@
+# custom for tracker forum
+# upstream localhost:8888
+
+# domains for redirect/rewrite
+http://rutracker.org/; http://torrentsru5dbmqszbdinnz7cjiubxsjngq52qij6ih3fmp3gn7hwqqd.onion
