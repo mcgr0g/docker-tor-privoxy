@@ -1,4 +1,4 @@
-ARG squid_ver=5.4.1-r0
+ARG squid_ver=5.5-r0
 ARG tor_ver=0.4.6.10-r0
 ARG snowflake_ver=v2.1.0
 
@@ -19,7 +19,8 @@ ARG squid_ver
 ARG tor_ver
 
 ARG UPGRADE=false
-RUN apk --no-cache add privoxy \
+RUN apk --no-cache add curl \
+        privoxy \
         squid=${squid_ver} \
         tor=${tor_ver} \
         ca-certificates && \
