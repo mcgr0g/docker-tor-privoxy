@@ -6,8 +6,8 @@ If you need molehole to fanced sites, talpa can help you. This kind of talpa hav
 
 Tor provides a [SOCKS](https://en.wikipedia.org/wiki/SOCKS) proxy. Privoxy provide an HTTP proxy. Squid help with routing.
 These ports are exposed by the image:
-- `8888` ⁠— Tor HTTP proxy
-- `9050` ⁠— Tor SOCKS5 proxy
+- `8888` ⁠— Tor HTTP proxy passthrough squid
+- `9050` ⁠— Tor SOCKS5 proxy direct
 - `9051` ⁠— Tor control
 
 ## Build
@@ -40,7 +40,7 @@ services:
     container_name: torproxy
     image: mcgr0g/talpa-altaica:latest
     environment:
-     ExcludeExitNodes: '{RU},{UA},{AM},{KG},{BY}'
+     EXCLUDE_NODE: '{RU},{UA},{AM},{KG},{BY}'
     ports:
     - 8888:8888
     - 9050:9050/tcp
