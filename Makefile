@@ -29,16 +29,6 @@ SNOWONLY=$(BFLAGS) --target build-env-snowflake .
 
 # IMAGE -----------------------------------------------------------------------
 
-# build:
-# 	docker build \
-# 	--build-arg img_ver=$(IMG_VER) \
-# 	--build-arg golang_ver=$(GOLANG_VER) \
-# 	--build-arg alpine_ver=$(ALPINE_VER) \
-# 	--build-arg squid_ver=$(SQUID_VER) \
-# 	--build-arg tor_ver=$(TOR_VER) \
-# 	--build-arg snowflake_ver=$(SNOWFLAKE_VER) \
-# 	-t $(IMG_NAME):$(IMG_VER) .
-
 build:
 	$(BUILD_FAST)
 	
@@ -46,17 +36,15 @@ build-full:
 	$(BUILD_FULL)
 
 upgrade packages:
-	docker build --build-arg UPGRADE=true -t $(IMG_NAME):$(IMG_VER) .
+	$(UPGRAGE_PKGS)
 
 reconf:
 	$(RECONF)
-	# docker build --build-arg RECONFIGURED=true -t $(IMG_NAME):$(IMG_VER) .
 
 # stop after build stage "build-env-snowflake"
 # you can get and test binaries on other host
 snowflake:
 	$(SNOWONLY)
-	# docker build --target build-env-snowflake -t $(IMG_NAME):$(IMG_VER) .
 
 login:
 	docker login
