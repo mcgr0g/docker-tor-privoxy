@@ -1,10 +1,13 @@
-ARG squid_ver=5.5-r0
-ARG tor_ver=0.4.6.10-r0
-ARG snowflake_ver=v2.1.0
+ARG img_ver
+ARG build_date=$(date +%Y-%m-%d)
+ARG golang_ver=latest
+ARG alpine_ver=latest
+ARG squid_ver
+ARG tor_ver
+ARG snowflake_ver=main
 
-FROM golang:1.18 as build-env-snowflake
+FROM golang:${golang_ver} as build-env-snowflake
 ARG snowflake_ver
-LABEL img_filter="torproxy"
 
 WORKDIR /builder
 RUN git config --global advice.detachedHead false && \
@@ -14,11 +17,24 @@ WORKDIR /builder/snowflake/client
 RUN go mod download
 RUN CGO_ENABLED=0 go build -o client -ldflags '-extldflags "-static" -w -s'  .
 
-FROM alpine:edge
+ARG UPGRADE=false
+
+FROM alpine:${alpine_ver}
+ARG img_ver
+ARG build_date
+LABEL org.opencontainers.image.authors="Ronnie McGrog" \
+      org.opencontainers.image.url="https://github.com/mcgr0g/talpa-altaica/" \
+      org.opencontainers.image.documentation="https://github.com/mcgr0g/talpa-altaica/blob/master/README.md" \
+      org.opencontainers.image.source="https://github.com/mcgr0g/talpa-altaica/blob/master/Dockerfile" \
+      org.opencontainers.image.title="talpa-altaica" \
+      org.opencontainers.image.description="tor proxy" \
+      org.opencontainers.image.version="${img_ver}" \
+      org.opencontainers.image.created="${build_date}"
+
+
 ARG squid_ver
 ARG tor_ver
 
-ARG UPGRADE=false
 RUN apk --no-cache add curl \
         privoxy \
         squid=${squid_ver} \

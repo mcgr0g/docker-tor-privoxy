@@ -1,36 +1,75 @@
-VERSION=0.1.1
-IMAGE=mcgr0g/talpa-altaica
+# VERSIONS ---------------------------------------------------------------------
+IMG_VER=0.1.2
+IMG_NAME=mcgr0g/talpa-altaica
+BUILD_DATE:=$(shell date '+%Y-%m-%d')
+
+GOLANG_VER=1.18
+ALPINE_VER=3.16
+SQUID_VER=5.5-r0
+TOR_VER=0.4.7.10-r0
+SNOWFLAKE_VER=v2.3.0
+
+# BUILD FLAGS -----------------------------------------------------------------
+
+BFLAGS=docker build \
+		--build-arg img_ver=$(IMG_VER) \
+		--build-arg build_date=$(BUILD_DATE) \
+		--build-arg golang_ver=$(GOLANG_VER) \
+		--build-arg alpine_ver=$(ALPINE_VER) \
+		--build-arg squid_ver=$(SQUID_VER) \
+		--build-arg tor_ver=$(TOR_VER) \
+		--build-arg snowflake_ver=$(SNOWFLAKE_VER) \
+		-t $(IMG_NAME):$(IMG_VER)
+
+BUILD_FAST=$(BFLAGS) .
+BUILD_FULL=$(BFLAGS) --no-cache .
+UPGRAGE_PKGS=$(BFLAGS) --build-arg UPGRADE=true .
+RECONF=$(BFLAGS) --build-arg RECONFIGURED=true .
+SNOWONLY=$(BFLAGS) --target build-env-snowflake .
 
 # IMAGE -----------------------------------------------------------------------
 
-build:
-	docker build -t $(IMAGE):$(VERSION) .
+# build:
+# 	docker build \
+# 	--build-arg img_ver=$(IMG_VER) \
+# 	--build-arg golang_ver=$(GOLANG_VER) \
+# 	--build-arg alpine_ver=$(ALPINE_VER) \
+# 	--build-arg squid_ver=$(SQUID_VER) \
+# 	--build-arg tor_ver=$(TOR_VER) \
+# 	--build-arg snowflake_ver=$(SNOWFLAKE_VER) \
+# 	-t $(IMG_NAME):$(IMG_VER) .
 
+build:
+	$(BUILD_FAST)
+	
 build-full:
-	docker build --no-cache -t $(IMAGE):$(VERSION) .
+	$(BUILD_FULL)
 
 upgrade packages:
-	docker build --build-arg UPGRADE=true -t $(IMAGE):$(VERSION) .
+	docker build --build-arg UPGRADE=true -t $(IMG_NAME):$(IMG_VER) .
 
 reconf:
-	docker build --build-arg RECONFIGURED=true -t $(IMAGE):$(VERSION) .
+	$(RECONF)
+	# docker build --build-arg RECONFIGURED=true -t $(IMG_NAME):$(IMG_VER) .
 
+# stop after build stage "build-env-snowflake"
+# you can get and test binaries on other host
 snowflake:
-	docker build --target build-env-snowflake -t $(IMAGE):$(VERSION) .
+	$(SNOWONLY)
+	# docker build --target build-env-snowflake -t $(IMG_NAME):$(IMG_VER) .
 
 login:
 	docker login
 
 prepush:
-	docker tag $(IMAGE):$(VERSION) $(IMAGE):latest
+	docker tag $(IMG_NAME):$(IMG_VER) $(IMG_NAME):latest
 
 # First need to login.
-#
 push:
-	docker push $(IMAGE)
+	docker push $(IMG_NAME)
 
 pull:
-	docker pull $(IMAGE)
+	docker pull $(IMG_NAME)
 
 # CONTAINER -------------------------------------------------------------------
 
@@ -40,17 +79,17 @@ example:
 	-e EXIT_NODE={ua},{ug},{uk},{ie} \
 	-p 127.0.0.1:8888:8888 \
 	-p 127.0.0.1:9050:9050 \
-	$(IMAGE):$(VERSION)
+	$(IMG_NAME):$(IMG_VER)
 
 run:
 	docker run --rm --name torproxy \
 	-e EXCLUDE_NODE={RU},{UA},{AM},{KG},{BY} \
 	-p 127.0.0.1:8888:8888 \
 	-p 127.0.0.1:9050:9050 \
-	$(IMAGE):$(VERSION)
+	$(IMG_NAME):$(IMG_VER)
 
 container-flop:
-	docker container run -it $(IMAGE):$(VERSION) /bin/bash
+	docker container run -it $(IMG_NAME):$(IMG_VER) /bin/bash
 
 runner-flop:
 	docker exec -it torproxy /bin/sh
