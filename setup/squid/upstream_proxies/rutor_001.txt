@@ -1,8 +1,0 @@
-# custom for tracker announce
-# upstream localhost:8888
-
-# domains for proxying
-udp://tracker.dler.com:6969/announce
-udp://tracker.bitsearch.to:1337/announce
-udp://opentor.net:6969
-udp://exodus.desync.com:6969/announce
