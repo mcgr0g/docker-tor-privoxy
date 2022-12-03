@@ -1,13 +1,13 @@
 # VERSIONS ---------------------------------------------------------------------
-IMG_VER=0.1.2
+IMG_VER=0.1.3
 IMG_NAME=mcgr0g/talpa-altaica
 BUILD_DATE:=$(shell date '+%Y-%m-%d')
 
 GOLANG_VER=1.18
-ALPINE_VER=3.16
-SQUID_VER=5.5-r0
+ALPINE_VER=3.17
+SQUID_VER=5.7-r0
 TOR_VER=0.4.7.10-r0
-SNOWFLAKE_VER=v2.3.0
+SNOWFLAKE_VER=v2.4.0
 
 # BUILD FLAGS -----------------------------------------------------------------
 
