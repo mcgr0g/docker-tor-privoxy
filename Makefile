@@ -54,7 +54,7 @@ prepush:
 
 # First need to login.
 push:
-	docker push $(IMG_NAME)
+	docker push $(IMG_NAME) --all-tags
 
 pull:
 	docker pull $(IMG_NAME)
