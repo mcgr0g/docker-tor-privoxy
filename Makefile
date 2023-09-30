@@ -1,13 +1,13 @@
 # VERSIONS ---------------------------------------------------------------------
-IMG_VER=0.1.3
+IMG_VER=0.1.4
 IMG_NAME=mcgr0g/talpa-altaica
 BUILD_DATE:=$(shell date '+%Y-%m-%d')
 
-GOLANG_VER=1.18
-ALPINE_VER=3.17
-SQUID_VER=5.7-r0
-TOR_VER=0.4.7.10-r0
-SNOWFLAKE_VER=v2.4.0
+GOLANG_VER=1.21.1 # need update https://forum.torproject.org/t/problems-with-snowflake-since-2023-09-20-broker-failure-unexpected-error-no-answer/9346/8
+ALPINE_VER=3.18
+SQUID_VER=5.9-r0
+TOR_VER=0.4.8.7-r0
+SNOWFLAKE_VER=v2.6.1
 
 # BUILD FLAGS -----------------------------------------------------------------
 
