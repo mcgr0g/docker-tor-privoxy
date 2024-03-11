@@ -1,1 +1,14 @@
 torproject\.org
+rutracker\.org
+bt\.rutracker\.cc
+bt2\.rutracker\.cc
+bt3\.rutracker\.cc
+bt4\.rutracker\.cc
+bt\.t-ru\.org
+bt2\.t-ru\.org
+bt3\.t-ru\.org
+bt4\.t-ru\.org
+playhd\.cc
+6tor\.org
+rutor\.info
+rutor7773fwscdatlqyc5sw3egsmwjkmklafljti5p7o236mveks3rid\.onion

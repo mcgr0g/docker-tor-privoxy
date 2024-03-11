@@ -47,7 +47,7 @@ RUN apk --no-cache add curl \
 ARG RECONFIGURED=false
 COPY setup /opt/
 
-COPY --from=build-env-snowflake /builder/snowflake/client/client /opt/tor/client
+COPY --from=build-env-snowflake /builder/snowflake/client/client /opt/tor/snowflake
 
 EXPOSE 8888 9050 9051
 

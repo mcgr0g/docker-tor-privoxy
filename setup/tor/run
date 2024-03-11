@@ -22,6 +22,17 @@ then
     sed -i 's/# \(StrictNodes\)/\1/' $TORRC
 fi
 
+# USE OWN SNOWFLAKE BRIDGE --------------------------------------------------------------------------------------------
+update_line="Bridge snowflake 192.0.2.4:80 8838024498816A039FCBBAB14E6F40A0843051FA fingerprint=8838024498816A039FCBBAB14E6F40A0843051FA"
+
+if [ -n "${BRIDGE}" ]
+then
+    sed -i "s^$special_line^Bridge $BRIDGE^g" "$TORRC"
+    echo "Updated $TORRC with bridge value: $BRIDGE"
+else
+    echo "No bridge value provided. Skipping update."
+fi
+
 # NODE ROTATION -------------------------------------------------------------------------------------------------------
 
 if [ !${1+NODE_ROTATION} ]

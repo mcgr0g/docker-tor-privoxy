@@ -1,13 +1,13 @@
 # VERSIONS ---------------------------------------------------------------------
-IMG_VER=0.1.4
+IMG_VER=0.1.5
 IMG_NAME=mcgr0g/talpa-altaica
 BUILD_DATE:=$(shell date '+%Y-%m-%d')
 
-GOLANG_VER=1.21.1 # need update https://forum.torproject.org/t/problems-with-snowflake-since-2023-09-20-broker-failure-unexpected-error-no-answer/9346/8
-ALPINE_VER=3.18
-SQUID_VER=5.9-r0
-TOR_VER=0.4.8.7-r0
-SNOWFLAKE_VER=v2.6.1
+GOLANG_VER=1.22.1
+ALPINE_VER=3.19.1
+SQUID_VER=6.6-r0
+TOR_VER=0.4.8.10-r0
+SNOWFLAKE_VER=v2.9.1
 
 # BUILD FLAGS -----------------------------------------------------------------
 
@@ -77,7 +77,7 @@ run:
 	$(IMG_NAME):$(IMG_VER)
 
 container-flop:
-	docker container run -it $(IMG_NAME):$(IMG_VER) /bin/bash
+	docker container run -it $(IMG_NAME):$(IMG_VER) /bin/sh
 
 runner-flop:
 	docker exec -it torproxy /bin/sh

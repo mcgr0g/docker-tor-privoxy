@@ -17,6 +17,7 @@ make build
 if you want make several checks inside containter: `make runner-flop`
 
 === snowflake transport
+DEPRECATED!
 In country with strong censorship you need special transport for connection to tor net.
 
 Transport building from source code.
@@ -37,6 +38,17 @@ only transport build
 ```
 make snowflake
 ```
+
+=== webtunel transport
+based on https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel
+
+
+only transport build
+```
+make webtunel
+```
+
+=== other
 
 if you want make several checks inside image
 ```
