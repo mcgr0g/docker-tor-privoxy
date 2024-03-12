@@ -22,15 +22,12 @@ then
     sed -i 's/# \(StrictNodes\)/\1/' $TORRC
 fi
 
-# USE OWN SNOWFLAKE BRIDGE --------------------------------------------------------------------------------------------
-update_line="Bridge snowflake 192.0.2.4:80 8838024498816A039FCBBAB14E6F40A0843051FA fingerprint=8838024498816A039FCBBAB14E6F40A0843051FA"
+# # USE OWN WEBTUNEL BRIDGE --------------------------------------------------------------------------------------------
+update_line="Bridge webtunnel 192.0.2.3:1 url=https://akbwadp9lc5fyyz0cj4d76z643pxgbfh6oyc-167-71-71-157.sslip.io/5m9yq0j4ghkz0fz7qmuw58cvbjon0ebnrsp0"
 
 if [ -n "${BRIDGE}" ]
 then
-    sed -i "s^$special_line^Bridge $BRIDGE^g" "$TORRC"
-    echo "Updated $TORRC with bridge value: $BRIDGE"
-else
-    echo "No bridge value provided. Skipping update."
+    sed -i "s^$update_line^Bridge $BRIDGE^" $TORRC
 fi
 
 # NODE ROTATION -------------------------------------------------------------------------------------------------------

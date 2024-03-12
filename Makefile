@@ -1,5 +1,5 @@
 # VERSIONS ---------------------------------------------------------------------
-IMG_VER=0.1.5
+IMG_VER=0.2.0
 IMG_NAME=mcgr0g/talpa-altaica
 BUILD_DATE:=$(shell date '+%Y-%m-%d')
 
@@ -72,6 +72,7 @@ example:
 run:
 	docker run --rm --name torproxy \
 	-e EXCLUDE_NODE={RU},{UA},{AM},{KG},{BY} \
+	-e BRIDGE="webtunnel 1.2.3.4:443 url=https://kek.lol/ololo ver=0.0.1" \
 	-p 127.0.0.1:8888:8888 \
 	-p 127.0.0.1:9050:9050 \
 	$(IMG_NAME):$(IMG_VER)

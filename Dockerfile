@@ -17,6 +17,16 @@ WORKDIR /builder/snowflake/client
 RUN go mod download
 RUN CGO_ENABLED=0 go build -o client -ldflags '-extldflags "-static" -w -s'  .
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+FROM golang:${golang_ver} as build-env-webtunnel
+WORKDIR /builder
+RUN git config --global advice.detachedHead false && \
+    git clone --depth=1 https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/webtunnel.git
+WORKDIR /builder/webtunnel/main/client
+RUN go mod download
+RUN CGO_ENABLED=0 go build -o client -ldflags '-extldflags "-static" -w -s'  .
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 ARG UPGRADE=false
 
 FROM alpine:${alpine_ver}
@@ -48,6 +58,7 @@ ARG RECONFIGURED=false
 COPY setup /opt/
 
 COPY --from=build-env-snowflake /builder/snowflake/client/client /opt/tor/snowflake
+COPY --from=build-env-webtunnel /builder/webtunnel/main/client/client /opt/tor/webtunnel
 
 EXPOSE 8888 9050 9051
 
